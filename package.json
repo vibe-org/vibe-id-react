@@ -1,0 +1,61 @@
+{
+  "name": "@vibe-id/react",
+  "version": "0.1.0",
+  "description": "React hooks for VibeID sign-in.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true});require('node:fs').rmSync('dist-test',{recursive:true,force:true})\"",
+    "pack:dry-run": "npm pack --dry-run",
+    "prepare": "tsc -p tsconfig.json",
+    "prepack": "pnpm clean && pnpm build",
+    "prepublishOnly": "pnpm test",
+    "test": "pnpm build && tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "@types/react": "^19.2.7",
+    "react": "19.2.4",
+    "typescript": "^5.9.3"
+  },
+  "keywords": [
+    "vibe-id",
+    "vibeid",
+    "react",
+    "authentication",
+    "signin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vibe-org/vibe-id-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vibe-org/vibe-id-react/issues"
+  },
+  "homepage": "https://vibeid.se/developers",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
