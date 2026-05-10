@@ -3,6 +3,9 @@ import test from "node:test";
 import {
   VIBE_ID_DOWNLOAD_URL,
   createVibeIdAppLaunchUrl,
+  getVibeIdDisplayName,
+  getVibeIdIdentityKey,
+  getVibeIdInitials,
   isMobileUserAgent,
 } from "../src/index.js";
 
@@ -46,4 +49,38 @@ test("allows Android package and fallback overrides", () => {
     launchUrl,
     "intent://sign?p=abc#Intent;scheme=vibe-id;package=test.package;S.browser_fallback_url=https%3A%2F%2Fexample.com%2Finstall;end",
   );
+});
+
+test("derives display fallbacks from sessions", () => {
+  assert.equal(getVibeIdDisplayName(null), "Personal");
+  assert.equal(getVibeIdInitials(null), "P");
+  assert.equal(
+    getVibeIdDisplayName({
+      did: "did:vibe:p256:abc123",
+      requestId: "req",
+      origin: "https://example.com",
+      createdAt: "2026-05-10T00:00:00Z",
+      expiresAt: "2026-05-17T00:00:00Z",
+      profile: {
+        displayName: "Patrik Opacic",
+        initials: "PO",
+        avatarUrl: null,
+        theme: {
+          key: "orbital",
+          displayName: "Orbital",
+          startColor: "#000000",
+          accentColor: "#111111",
+          endColor: "#222222",
+          avatarColor: "#333333",
+          surfaceColor: "#444444",
+          surfaceAccentColor: "#555555",
+        },
+      },
+    }),
+    "Patrik Opacic",
+  );
+});
+
+test("derives a compact identity key from a DID", () => {
+  assert.equal(getVibeIdIdentityKey("did:vibe:p256:abc123yzG63s"), "yzG63s");
 });

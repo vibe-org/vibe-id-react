@@ -1,6 +1,6 @@
 # @vibe-id/react
 
-React hooks for VibeID sign-in.
+React hooks and small UI primitives for VibeID sign-in.
 
 Repository name: `vibe-id-react`
 
@@ -24,11 +24,12 @@ This package contains browser-side React helpers:
 - log out
 - launch the VibeID mobile app from a deep link
 - expose a small state machine for custom UI
+- render a sign-in button, QR prompt, avatar button, and profile menu
 
-It intentionally does not ship styled UI components yet. Build your own sheet,
-popover, button, and QR presentation around the hook state.
+The components ship with simple inline defaults and accept normal `className`
+and `style` props. Use the hook when you already have your own login UI.
 
-## Example
+## Hook example
 
 ```tsx
 "use client";
@@ -49,6 +50,62 @@ export function SignInButton() {
   );
 }
 ```
+
+## Component example
+
+```tsx
+"use client";
+
+import {
+  VibeIdAvatarButton,
+  VibeIdProfileMenu,
+  VibeIdProvider,
+  VibeIdSignInButton,
+  VibeIdSignInPrompt,
+  useVibeId,
+} from "@vibe-id/react";
+
+export function AuthMenu() {
+  return (
+    <VibeIdProvider>
+      <AuthMenuInner />
+    </VibeIdProvider>
+  );
+}
+
+function AuthMenuInner() {
+  const vibe = useVibeId();
+
+  if (vibe.session) {
+    return (
+      <div>
+        <VibeIdAvatarButton />
+        <VibeIdProfileMenu actions={[{ label: "Account settings", href: "/account" }]} />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <VibeIdSignInButton />
+      {vibe.request ? <VibeIdSignInPrompt /> : null}
+    </div>
+  );
+}
+```
+
+## Exports
+
+- `useVibeIdSignIn`
+- `VibeIdProvider`
+- `useVibeId`
+- `useVibeIdQrCode`
+- `VibeIdSignInButton`
+- `VibeIdSignInPrompt`
+- `VibeIdQrCode`
+- `VibeIdAvatarButton`
+- `VibeIdProfileMenu`
+- launch and display helpers
 
 ## Release checks
 
