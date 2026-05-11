@@ -1,6 +1,6 @@
 # @vibe-id/react
 
-React hooks and small UI primitives for VibeID sign-in.
+React hooks and optional styled components for VibeID sign-in.
 
 Repository name: `vibe-id-react`
 
@@ -24,10 +24,12 @@ This package contains browser-side React helpers:
 - log out
 - launch the VibeID mobile app from a deep link
 - expose a small state machine for custom UI
-- render a sign-in button, QR prompt, avatar button, and profile menu
+- render headless/custom sign-in UI
+- optionally use styled provider-button and approval-prompt components
 
-The components ship with simple inline defaults and accept normal `className`
-and `style` props. Use the hook when you already have your own login UI.
+Use the hooks when you already have your own login UI. Use
+`@vibe-id/react/styled` when you want VibeID's default provider button and
+approval prompt.
 
 ## Hook example
 
@@ -51,48 +53,21 @@ export function SignInButton() {
 }
 ```
 
-## Component example
+## Styled component example
 
 ```tsx
 "use client";
 
-import {
-  VibeIdAvatarButton,
-  VibeIdProfileMenu,
-  VibeIdProvider,
-  VibeIdSignInButton,
-  VibeIdSignInPrompt,
-  useVibeId,
-} from "@vibe-id/react";
+import "@vibe-id/react/styled.css";
+import { VibeIdSignIn } from "@vibe-id/react/styled";
 
-export function AuthMenu() {
-  return (
-    <VibeIdProvider>
-      <AuthMenuInner />
-    </VibeIdProvider>
-  );
-}
-
-function AuthMenuInner() {
-  const vibe = useVibeId();
-
-  if (vibe.session) {
-    return (
-      <div>
-        <VibeIdAvatarButton />
-        <VibeIdProfileMenu actions={[{ label: "Account settings", href: "/account" }]} />
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <VibeIdSignInButton />
-      {vibe.request ? <VibeIdSignInPrompt /> : null}
-    </div>
-  );
+export function SignInOption() {
+  return <VibeIdSignIn />;
 }
 ```
+
+If your framework restricts global CSS imports, import
+`@vibe-id/react/styled.css` from your app root/layout file.
 
 ## Exports
 
@@ -105,6 +80,11 @@ function AuthMenuInner() {
 - `VibeIdQrCode`
 - `VibeIdAvatarButton`
 - `VibeIdProfileMenu`
+- `@vibe-id/react/styled`
+  - `VibeIdButton`
+  - `VibeIdPrompt`
+  - `VibeIdSignIn`
+- `@vibe-id/react/styled.css`
 - launch and display helpers
 
 ## Release checks

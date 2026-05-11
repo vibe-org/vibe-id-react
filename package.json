@@ -4,14 +4,21 @@
   "description": "React hooks for VibeID sign-in.",
   "type": "module",
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./styled": {
+      "types": "./dist/styled.d.ts",
+      "import": "./dist/styled.js"
+    },
+    "./styled.css": "./dist/styled.css"
   },
   "files": [
     "dist",
@@ -19,10 +26,10 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true});require('node:fs').rmSync('dist-test',{recursive:true,force:true})\"",
     "pack:dry-run": "npm pack --dry-run",
-    "prepare": "tsc -p tsconfig.json",
+    "prepare": "pnpm build",
     "prepack": "pnpm clean && pnpm build",
     "prepublishOnly": "pnpm test",
     "test": "pnpm build && tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
@@ -36,7 +43,6 @@
   },
   "devDependencies": {
     "@types/node": "^20.19.25",
-    "@types/qrcode": "^1.5.6",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.7",
     "react": "19.2.4",
@@ -62,8 +68,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "dependencies": {
-    "qrcode": "^1.5.4"
   }
 }

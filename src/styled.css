@@ -1,0 +1,293 @@
+.vibe-id-button {
+  --vibe-id-button-text: #1d1b4f;
+  --vibe-id-button-accent: #6d5dfc;
+  --vibe-id-button-surface: linear-gradient(135deg, #f8fbff 0%, #f3edff 52%, #eef8ff 100%);
+
+  display: inline-flex;
+  min-height: 48px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid color-mix(in srgb, var(--vibe-id-button-accent) 30%, transparent);
+  border-radius: 8px;
+  background: var(--vibe-id-button-surface);
+  color: var(--vibe-id-button-text);
+  padding: 0 16px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--vibe-id-button-accent) 11%, transparent);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.vibe-id-button:hover {
+  border-color: color-mix(in srgb, var(--vibe-id-button-accent) 52%, transparent);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--vibe-id-button-accent) 16%, transparent);
+}
+
+.vibe-id-button:active {
+  transform: translateY(1px);
+}
+
+.vibe-id-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+  transform: none;
+}
+
+.vibe-id-button__label {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.vibe-id-button__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vibe-id-button__meta {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--vibe-id-button-accent) 88%, #1d1b4f);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.vibe-id-mark {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(15 23 42 / 10%);
+  outline: 1px solid color-mix(in srgb, var(--vibe-id-button-accent, #6d5dfc) 20%, transparent);
+}
+
+.vibe-id-mark svg {
+  width: 16px;
+  height: 16px;
+}
+
+.vibe-id-prompt-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: rgb(15 23 42 / 46%);
+  backdrop-filter: blur(8px);
+}
+
+.vibe-id-prompt {
+  --vibe-id-prompt-accent: #6d5dfc;
+
+  display: grid;
+  width: min(100%, 390px);
+  max-height: min(760px, calc(100vh - 32px));
+  overflow: auto;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 24px;
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 28px 90px rgb(15 23 42 / 24%);
+}
+
+.vibe-id-prompt__handle {
+  justify-self: center;
+  width: 56px;
+  height: 5px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.vibe-id-prompt__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 20px 0;
+}
+
+.vibe-id-prompt__eyebrow {
+  margin: 0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.vibe-id-prompt__title {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 750;
+  line-height: 1.12;
+}
+
+.vibe-id-prompt__description {
+  margin: 8px 0 0;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.vibe-id-prompt__close {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.vibe-id-prompt__close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.vibe-id-prompt__body {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.vibe-id-prompt__qr {
+  display: grid;
+  min-height: 270px;
+  place-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #fff;
+  padding: 16px;
+}
+
+.vibe-id-prompt__qr img {
+  display: block;
+  width: 100%;
+  max-width: 256px;
+  aspect-ratio: 1 / 1;
+  image-rendering: crisp-edges;
+}
+
+.vibe-id-prompt__placeholder {
+  display: grid;
+  width: 100%;
+  min-height: 236px;
+  place-items: center;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.vibe-id-prompt__status {
+  display: grid;
+  gap: 4px;
+  border-radius: 16px;
+  background: #f8fafc;
+  padding: 12px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.vibe-id-prompt__status p {
+  margin: 0;
+}
+
+.vibe-id-prompt__meta {
+  overflow-wrap: anywhere;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.vibe-id-prompt__error {
+  color: #b91c1c;
+}
+
+.vibe-id-prompt__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.vibe-id-prompt__primary,
+.vibe-id-prompt__secondary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vibe-id-prompt__primary {
+  border: 0;
+  background: #0f172a;
+  color: #fff;
+}
+
+.vibe-id-prompt__secondary {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+}
+
+.vibe-id-prompt__primary:disabled,
+.vibe-id-prompt__secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.vibe-id-prompt__download {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 560px) {
+  .vibe-id-prompt-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+
+  .vibe-id-prompt {
+    width: 100%;
+    max-height: min(88vh, 760px);
+    border-radius: 24px 24px 0 0;
+  }
+}

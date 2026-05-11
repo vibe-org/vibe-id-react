@@ -604,7 +604,7 @@ export function useVibeId() {
   return state;
 }
 
-function useOptionalVibeId(provided?: VibeIdSignInState) {
+export function useOptionalVibeId(provided?: VibeIdSignInState) {
   const state = useContext(VibeIdContext);
   if (provided) {
     return provided;
