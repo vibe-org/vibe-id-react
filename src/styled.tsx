@@ -33,6 +33,7 @@ export type VibeIdButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "c
 
 export type VibeIdPromptProps = {
   vibe?: VibeIdSignInState;
+  variant?: "brand" | "neutral";
   title?: ReactNode;
   eyebrow?: ReactNode;
   description?: ReactNode;
@@ -82,6 +83,7 @@ export type VibeIdIdentityMenuProps = {
   copiedDidLabel?: ReactNode;
   promptTitle?: ReactNode;
   promptDescription?: ReactNode;
+  promptVariant?: VibeIdPromptProps["variant"];
   showToast?: boolean;
   actions?: VibeIdIdentityMenuAction[];
   onAuthenticated?: (session: VibeIdSession) => void;
@@ -141,6 +143,7 @@ export function VibeIdButton({
 
 export function VibeIdPrompt({
   vibe: provided,
+  variant = "brand",
   title = "Approve sign-in",
   eyebrow = "VibeID",
   description = "Scan with VibeID, or open the app on this device.",
@@ -165,7 +168,11 @@ export function VibeIdPrompt({
   const footerContent = typeof footer === "function" ? footer(vibe) : footer;
 
   return (
-    <section className={cx("vibe-id-prompt", className)} style={style} aria-live="polite">
+    <section
+      className={cx("vibe-id-prompt", `vibe-id-prompt--${variant}`, className)}
+      style={style}
+      aria-live="polite"
+    >
       {showHandle ? <div className="vibe-id-prompt__handle" /> : null}
       <div className="vibe-id-prompt__header">
         <div>
@@ -316,6 +323,7 @@ export function VibeIdIdentityMenu({
   copiedDidLabel = "Copied",
   promptTitle = "Scan with VibeID",
   promptDescription = "Open VibeID on this phone, or scan the QR code with VibeID on another device.",
+  promptVariant,
   showToast = true,
   actions = [],
   onAuthenticated,
@@ -549,6 +557,7 @@ export function VibeIdIdentityMenu({
                 className="vibe-id-identity-prompt"
                 showHandle={false}
                 showClose={false}
+                variant={promptVariant}
                 title={promptTitle}
                 description={promptDescription}
               />

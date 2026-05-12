@@ -92,6 +92,9 @@
 
 .vibe-id-prompt {
   --vibe-id-prompt-accent: #6d5dfc;
+  --vibe-id-prompt-brand-start: #3a83f4;
+  --vibe-id-prompt-brand-mid: #746cf6;
+  --vibe-id-prompt-brand-end: #b46cf4;
 
   display: grid;
   width: min(100%, 390px);
@@ -104,6 +107,12 @@
   box-shadow: 0 28px 90px rgb(15 23 42 / 24%);
 }
 
+.vibe-id-prompt--brand {
+  border-color: rgb(255 255 255 / 32%);
+  background: #fff;
+  box-shadow: 0 28px 90px rgb(15 23 42 / 28%);
+}
+
 .vibe-id-prompt__handle {
   justify-self: center;
   width: 56px;
@@ -113,12 +122,33 @@
   background: #cbd5e1;
 }
 
+.vibe-id-prompt--brand > .vibe-id-prompt__handle {
+  position: relative;
+  z-index: 2;
+  margin-bottom: -17px;
+  background: rgb(255 255 255 / 62%);
+  box-shadow: 0 1px 8px rgb(15 23 42 / 12%);
+}
+
 .vibe-id-prompt__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   padding: 20px 20px 0;
+}
+
+.vibe-id-prompt--brand .vibe-id-prompt__header {
+  align-items: flex-start;
+  min-height: 132px;
+  background: linear-gradient(
+    135deg,
+    var(--vibe-id-prompt-brand-start) 0%,
+    var(--vibe-id-prompt-brand-mid) 56%,
+    var(--vibe-id-prompt-brand-end) 100%
+  );
+  color: #fff;
+  padding: 24px 20px 22px;
 }
 
 .vibe-id-prompt__eyebrow {
@@ -130,11 +160,19 @@
   text-transform: uppercase;
 }
 
+.vibe-id-prompt--brand .vibe-id-prompt__eyebrow {
+  color: rgb(255 255 255 / 82%);
+}
+
 .vibe-id-prompt__title {
   margin: 4px 0 0;
   font-size: 24px;
   font-weight: 750;
   line-height: 1.12;
+}
+
+.vibe-id-prompt--brand .vibe-id-prompt__title {
+  color: #fff;
 }
 
 .vibe-id-prompt__description {
@@ -143,6 +181,10 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 1.55;
+}
+
+.vibe-id-prompt--brand .vibe-id-prompt__description {
+  color: rgb(255 255 255 / 92%);
 }
 
 .vibe-id-prompt__close {
@@ -161,8 +203,19 @@
     color 160ms ease;
 }
 
+.vibe-id-prompt--brand .vibe-id-prompt__close {
+  background: rgb(255 255 255 / 82%);
+  color: #64748b;
+  backdrop-filter: blur(8px);
+}
+
 .vibe-id-prompt__close:hover {
   background: #e2e8f0;
+  color: #0f172a;
+}
+
+.vibe-id-prompt--brand .vibe-id-prompt__close:hover {
+  background: #fff;
   color: #0f172a;
 }
 
@@ -170,6 +223,10 @@
   display: grid;
   gap: 16px;
   padding: 20px;
+}
+
+.vibe-id-prompt--brand .vibe-id-prompt__body {
+  gap: 16px;
 }
 
 .vibe-id-prompt__qr {
@@ -250,8 +307,12 @@
 
 .vibe-id-prompt__primary {
   border: 0;
-  background: #0f172a;
+  background: #3865f4;
   color: #fff;
+}
+
+.vibe-id-prompt--neutral .vibe-id-prompt__primary {
+  background: #0f172a;
 }
 
 .vibe-id-prompt__secondary {

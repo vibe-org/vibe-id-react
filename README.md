@@ -28,8 +28,8 @@ This package contains browser-side React helpers:
 - optionally use styled provider-button and approval-prompt components
 
 Use the hooks when you already have your own login UI. Use
-`@vibe-id/react/styled` when you want VibeID's default provider button and
-approval prompt.
+`@vibe-id/react/styled` when you want VibeID's branded provider button,
+approval prompt, and identity menu.
 
 ## Hook example
 
@@ -68,6 +68,10 @@ export function SignInOption() {
 
 If your framework restricts global CSS imports, import
 `@vibe-id/react/styled.css` from your app root/layout file.
+
+The styled prompt defaults to VibeID's branded gradient treatment. Pass
+`variant="neutral"` to `VibeIdPrompt`, or `promptVariant="neutral"` to
+`VibeIdIdentityMenu`, when you want a quieter prompt.
 
 ## Exports
 
