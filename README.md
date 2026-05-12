@@ -84,6 +84,7 @@ If your framework restricts global CSS imports, import
   - `VibeIdButton`
   - `VibeIdPrompt`
   - `VibeIdSignIn`
+  - `VibeIdIdentityMenu`
 - `@vibe-id/react/styled.css`
 - launch and display helpers
 
