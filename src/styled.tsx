@@ -150,7 +150,7 @@ export function VibeIdPrompt({
   className,
   style,
   qrOptions,
-  showHandle = true,
+  showHandle,
   showClose = true,
   showDownloadLink = true,
   downloadUrl = VIBE_ID_DOWNLOAD_URL,
@@ -173,7 +173,7 @@ export function VibeIdPrompt({
       style={style}
       aria-live="polite"
     >
-      {showHandle ? <div className="vibe-id-prompt__handle" /> : null}
+      {showHandle !== false ? <div className="vibe-id-prompt__handle" /> : null}
       <div className="vibe-id-prompt__header">
         <div>
           {eyebrow ? <p className="vibe-id-prompt__eyebrow">{eyebrow}</p> : null}
@@ -542,6 +542,7 @@ export function VibeIdIdentityMenu({
                           const loggedOut = await vibe.logout();
                           if (loggedOut) {
                             setToastVisible(false);
+                            setOpen(false);
                           }
                         })();
                       }}
