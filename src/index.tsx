@@ -300,7 +300,7 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
   const logoutUrl = options.logoutUrl ?? DEFAULT_LOGOUT_URL;
   const pollIntervalMs = options.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS;
   const appNotOpenedDelayMs = options.appNotOpenedDelayMs ?? DEFAULT_APP_NOT_OPENED_DELAY_MS;
-  const fetcher = options.fetcher ?? globalThis.fetch?.bind(globalThis);
+  const fetcher = useMemo(() => options.fetcher ?? globalThis.fetch?.bind(globalThis), [options.fetcher]);
   const browserLocation = options.location ?? globalThis.location;
   const browserNavigator = options.navigator ?? globalThis.navigator;
   const browserDocument = options.document ?? globalThis.document;
