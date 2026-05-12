@@ -97,9 +97,10 @@
   --vibe-id-prompt-brand-end: #b46cf4;
 
   display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
   width: min(100%, 390px);
   max-height: min(760px, calc(100vh - 32px));
-  overflow: auto;
+  overflow: hidden;
   border: 1px solid rgb(226 232 240);
   border-radius: 24px;
   background: #fff;
@@ -108,7 +109,7 @@
 }
 
 .vibe-id-prompt--brand {
-  border-color: transparent;
+  border: 0;
   background:
     linear-gradient(
         135deg,
@@ -225,6 +226,7 @@
 .vibe-id-prompt__body {
   display: grid;
   gap: 16px;
+  overflow: auto;
   padding: 20px;
 }
 
