@@ -81,6 +81,7 @@ export type VibeIdSignInPhase =
   | "failed";
 
 export type VibeIdSignInOptions = {
+  apiBasePath?: string;
   requestUrl?: string;
   statusUrl?: string;
   sessionUrl?: string;
@@ -182,9 +183,7 @@ export type VibeIdProfileMenuProps = {
   logoutLabel?: ReactNode;
 };
 
-const DEFAULT_REQUEST_URL = "/api/auth/vibe/request";
-const DEFAULT_SESSION_URL = "/api/auth/session";
-const DEFAULT_LOGOUT_URL = "/api/auth/logout";
+const DEFAULT_API_BASE_PATH = "/api/vibe-id";
 const DEFAULT_POLL_INTERVAL_MS = 1500;
 const DEFAULT_APP_NOT_OPENED_DELAY_MS = 1500;
 
@@ -294,10 +293,21 @@ export function createVibeIdAppLaunchUrl(
   )};package=${packageName};S.browser_fallback_url=${fallbackUrl};end`;
 }
 
+export function createVibeIdApiUrls(apiBasePath = DEFAULT_API_BASE_PATH) {
+  const basePath = normalizeApiBasePath(apiBasePath);
+  return {
+    requestUrl: `${basePath}/request`,
+    sessionUrl: `${basePath}/session`,
+    logoutUrl: `${basePath}/logout`,
+    statusUrl: (requestId: string) => `${basePath}/status/${encodeURIComponent(requestId)}`,
+  };
+}
+
 export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignInState {
-  const requestUrl = options.requestUrl ?? DEFAULT_REQUEST_URL;
-  const sessionUrl = options.sessionUrl ?? DEFAULT_SESSION_URL;
-  const logoutUrl = options.logoutUrl ?? DEFAULT_LOGOUT_URL;
+  const apiUrls = useMemo(() => createVibeIdApiUrls(options.apiBasePath), [options.apiBasePath]);
+  const requestUrl = options.requestUrl ?? apiUrls.requestUrl;
+  const sessionUrl = options.sessionUrl ?? apiUrls.sessionUrl;
+  const logoutUrl = options.logoutUrl ?? apiUrls.logoutUrl;
   const pollIntervalMs = options.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS;
   const appNotOpenedDelayMs = options.appNotOpenedDelayMs ?? DEFAULT_APP_NOT_OPENED_DELAY_MS;
   const fetcher = useMemo(() => options.fetcher ?? globalThis.fetch?.bind(globalThis), [options.fetcher]);
@@ -588,6 +598,15 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
     cancel,
     clearError,
   };
+}
+
+function normalizeApiBasePath(value: string) {
+  const trimmed = value.trim().replace(/\/+$/, "");
+  if (!trimmed) {
+    return DEFAULT_API_BASE_PATH;
+  }
+
+  return trimmed.startsWith("/") || /^https?:\/\//i.test(trimmed) ? trimmed : `/${trimmed}`;
 }
 
 export function VibeIdProvider({ children, options }: VibeIdProviderProps) {

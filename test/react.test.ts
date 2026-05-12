@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   VIBE_ID_DOWNLOAD_URL,
   createVibeIdAppLaunchUrl,
+  createVibeIdApiUrls,
   getVibeIdDisplayName,
   getVibeIdIdentityKey,
   getVibeIdInitials,
@@ -49,6 +50,15 @@ test("allows Android package and fallback overrides", () => {
     launchUrl,
     "intent://sign?p=abc#Intent;scheme=vibe-id;package=test.package;S.browser_fallback_url=https%3A%2F%2Fexample.com%2Finstall;end",
   );
+});
+
+test("creates API URLs from a base path", () => {
+  const urls = createVibeIdApiUrls("/custom/vibe/");
+
+  assert.equal(urls.requestUrl, "/custom/vibe/request");
+  assert.equal(urls.sessionUrl, "/custom/vibe/session");
+  assert.equal(urls.logoutUrl, "/custom/vibe/logout");
+  assert.equal(urls.statusUrl("request id"), "/custom/vibe/status/request%20id");
 });
 
 test("derives display fallbacks from sessions", () => {

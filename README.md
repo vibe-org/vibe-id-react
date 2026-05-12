@@ -13,6 +13,9 @@ pnpm add @vibe-id/react
 ```
 
 Use this with a backend integration such as `@vibe-id/next`.
+By default, the React helpers call `/api/vibe-id/request`,
+`/api/vibe-id/session`, and `/api/vibe-id/logout`. Pass `apiBasePath` when
+your backend is mounted somewhere else.
 
 ## What belongs here
 
@@ -39,7 +42,7 @@ approval prompt, and identity menu.
 import { useVibeIdSignIn } from "@vibe-id/react";
 
 export function SignInButton() {
-  const vibe = useVibeIdSignIn();
+  const vibe = useVibeIdSignIn({ apiBasePath: "/api/vibe-id" });
 
   return (
     <button
@@ -79,6 +82,7 @@ The styled prompt defaults to VibeID's branded gradient treatment. Pass
 - `VibeIdProvider`
 - `useVibeId`
 - `useVibeIdQrCode`
+- `createVibeIdApiUrls`
 - `VibeIdSignInButton`
 - `VibeIdSignInPrompt`
 - `VibeIdQrCode`
