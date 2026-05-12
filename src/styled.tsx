@@ -70,6 +70,8 @@ export type VibeIdIdentityMenuProps = {
   options?: VibeIdSignInOptions;
   className?: string;
   triggerClassName?: string;
+  signedOutTriggerClassName?: string;
+  signedInTriggerClassName?: string;
   panelClassName?: string;
   style?: CSSProperties;
   signInLabel?: ReactNode;
@@ -302,6 +304,8 @@ export function VibeIdIdentityMenu({
   options,
   className,
   triggerClassName,
+  signedOutTriggerClassName,
+  signedInTriggerClassName,
   panelClassName,
   style,
   signInLabel = "Sign in",
@@ -386,6 +390,7 @@ export function VibeIdIdentityMenu({
         className={cx(
           session ? "vibe-id-identity-trigger vibe-id-identity-trigger--avatar" : "vibe-id-identity-trigger",
           triggerClassName,
+          session ? signedInTriggerClassName : signedOutTriggerClassName,
         )}
         aria-haspopup="dialog"
         aria-expanded={open}
