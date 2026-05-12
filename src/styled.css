@@ -108,8 +108,16 @@
 }
 
 .vibe-id-prompt--brand {
-  border-color: rgb(255 255 255 / 32%);
-  background: #fff;
+  border-color: transparent;
+  background:
+    linear-gradient(
+        135deg,
+        var(--vibe-id-prompt-brand-start) 0%,
+        var(--vibe-id-prompt-brand-mid) 56%,
+        var(--vibe-id-prompt-brand-end) 100%
+      )
+      top / 100% 132px no-repeat,
+    #fff;
   box-shadow: 0 28px 90px rgb(15 23 42 / 28%);
 }
 
