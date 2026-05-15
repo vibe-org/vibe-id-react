@@ -50,11 +50,16 @@ export function SignInButton() {
       onClick={() => void vibe.start({ openAppOnMobile: true })}
       disabled={vibe.busy}
     >
-      {vibe.session ? "Signed in" : "Sign in with VibeID"}
+      {vibe.authenticated ? "Signed in" : "Sign in with VibeID"}
     </button>
   );
 }
 ```
+
+When the backend uses `@vibe-id/next` with `sessionMode: "external"`, the hook
+sets `vibe.authenticated` and exposes any app-provided public payload as
+`vibe.externalSession`. `vibe.session` is only populated for VibeID-managed
+browser sessions.
 
 ## Styled component example
 

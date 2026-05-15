@@ -57,7 +57,7 @@ export type VibeIdSignInProps = {
   promptProps?: Omit<VibeIdPromptProps, "vibe" | "onClose">;
   modal?: boolean;
   openAppOnMobile?: boolean;
-  onAuthenticated?: (session: VibeIdSession) => void;
+  onAuthenticated?: (session: VibeIdSession | null, state: VibeIdSignInState) => void;
 };
 
 export type VibeIdIdentityMenuAction = {
@@ -270,12 +270,12 @@ export function VibeIdSignIn({
       return;
     }
 
-    if (vibe.phase === "authenticated" && vibe.session && wasPendingRef.current) {
+    if (vibe.phase === "authenticated" && vibe.authenticated && wasPendingRef.current) {
       wasPendingRef.current = false;
       setPromptOpen(false);
-      onAuthenticated?.(vibe.session);
+      onAuthenticated?.(vibe.session, vibe);
     }
-  }, [onAuthenticated, vibe.phase, vibe.session]);
+  }, [onAuthenticated, vibe]);
 
   const prompt = promptOpen ? (
     <VibeIdPrompt
@@ -342,7 +342,7 @@ export function VibeIdIdentityMenu({
       return;
     }
 
-    if (vibe.phase === "authenticated" && vibe.session && wasPendingRef.current) {
+    if (vibe.phase === "authenticated" && vibe.authenticated && vibe.session && wasPendingRef.current) {
       wasPendingRef.current = false;
       setToastVisible(showToast);
       onAuthenticated?.(vibe.session);

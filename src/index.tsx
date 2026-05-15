@@ -56,6 +56,7 @@ export type VibeIdSessionResponse = {
   ok: boolean;
   authenticated: boolean;
   session?: VibeIdSession;
+  externalSession?: unknown;
 };
 
 export type VibeIdSignInStatusResponse = {
@@ -63,6 +64,7 @@ export type VibeIdSignInStatusResponse = {
   status: "pending" | "completed" | "expired";
   authenticated?: boolean;
   session?: VibeIdSession | null;
+  externalSession?: unknown;
   result?: {
     status: "ok" | "error";
     outcome: "verified" | "rejected" | "failed";
@@ -104,10 +106,12 @@ export type VibeIdStartOptions = {
 
 export type VibeIdSignInState = {
   phase: VibeIdSignInPhase;
+  authenticated: boolean;
   busy: boolean;
   polling: boolean;
   request: VibeIdSignInRequest | null;
   session: VibeIdSession | null;
+  externalSession: unknown | null;
   error: string | null;
   start: (options?: VibeIdStartOptions) => Promise<VibeIdSignInRequest | null>;
   openVibeId: () => boolean;
@@ -323,6 +327,8 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
   const [polling, setPolling] = useState(false);
   const [request, setRequest] = useState<VibeIdSignInRequest | null>(null);
   const [session, setSession] = useState<VibeIdSession | null>(null);
+  const [externalSession, setExternalSession] = useState<unknown | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!fetcher) {
@@ -359,7 +365,9 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
       const data = (await response.json().catch(() => ({ ok: false, authenticated: false }))) as VibeIdSessionResponse;
       const nextSession = response.ok && data.ok && data.authenticated && data.session ? data.session : null;
       setSession(nextSession);
-      if (nextSession) {
+      setExternalSession(response.ok && data.ok && data.authenticated ? (data.externalSession ?? null) : null);
+      setAuthenticated(response.ok && data.ok && data.authenticated);
+      if (response.ok && data.ok && data.authenticated) {
         setPhase("authenticated");
       }
       return nextSession;
@@ -397,8 +405,10 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
       if (data.status === "completed") {
         stopPolling();
 
-        if (data.authenticated && data.session) {
-          setSession(data.session);
+        if (data.authenticated) {
+          setSession(data.session ?? null);
+          setExternalSession(data.externalSession ?? null);
+          setAuthenticated(true);
           setRequest(null);
           setPhase("authenticated");
           setError(null);
@@ -526,8 +536,8 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
     clearAppFallbackTimer();
     stopPolling();
     setRequest(null);
-    setPhase(session ? "authenticated" : "idle");
-  }, [clearAppFallbackTimer, session, stopPolling]);
+    setPhase(authenticated ? "authenticated" : "idle");
+  }, [authenticated, clearAppFallbackTimer, stopPolling]);
 
   const logout = useCallback(async () => {
     setBusy(true);
@@ -543,6 +553,8 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
       }
 
       setSession(null);
+      setExternalSession(null);
+      setAuthenticated(false);
       setRequest(null);
       cancel();
       setPhase("idle");
@@ -586,10 +598,12 @@ export function useVibeIdSignIn(options: VibeIdSignInOptions = {}): VibeIdSignIn
 
   return {
     phase,
+    authenticated,
     busy,
     polling,
     request,
     session,
+    externalSession,
     error,
     start,
     openVibeId,
@@ -712,7 +726,7 @@ export function VibeIdSignInButton({
   const content =
     typeof children === "function"
       ? children(vibe)
-      : children ?? (vibe.session ? "Signed in" : vibe.polling ? "Waiting..." : "Sign in with VibeID");
+      : children ?? (vibe.authenticated ? "Signed in" : vibe.polling ? "Waiting..." : "Sign in with VibeID");
 
   return (
     <button
